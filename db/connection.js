@@ -10,4 +10,4 @@ const db = mysql.createConnection(
   console.log("connected to the store database")
 );
 
-module.exports = db;
+module.exports = db.promise();
