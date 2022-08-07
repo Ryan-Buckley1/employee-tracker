@@ -10,12 +10,13 @@ const openingQuest = () => {
       type: "list",
       choices: [
         "View all Employees",
-        "Add Employee",
-        "Update Employee Role",
         "View All Roles",
-        "Add Role",
         "View All Departments",
+        "Add Employee",
+        "Add Role",
         "Add Department",
+        "Update Employee Role",
+        "View Employees By Manager",
         "Quit",
       ],
     })
@@ -39,6 +40,9 @@ const openingQuest = () => {
         case "View All Departments":
           viewAllDepartments();
           break;
+        case "View Employees By Manager":
+          viewEmployeesByManager();
+          break;
         case "Add Department":
           addDepartment();
           break;
@@ -50,7 +54,27 @@ const openingQuest = () => {
 };
 
 openingQuest();
-
+const viewEmployeesByManager = async () => {
+  const sql = `SELECT * FROM employees WHERE manager_id IS NULL`;
+  const managers = await db.query(sql);
+  const allManagers = await inquirer.prompt([
+    {
+      name: "selectedManager",
+      message: "What manager's employees would you like to see?",
+      type: "list",
+      choices: managers[0].map((manager) => {
+        return {
+          name: manager.first_name + " " + manager.last_name,
+          value: manager.id,
+        };
+      }),
+    },
+  ]);
+  const sql2 = `SELECT first_name, last_name FROM employees WHERE manager_id = ?`;
+  const rows = await db.query(sql2, allManagers.selectedManager);
+  console.table(rows[0]);
+  openingQuest();
+};
 const viewAllEmployees = async () => {
   const sql = `SELECT employees.first_name AS First, employees.last_name AS Last, title ,managers.first_name AS Manager FROM employees 
   LEFT JOIN employees managers
