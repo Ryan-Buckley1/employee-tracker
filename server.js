@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 
 const db = require("./db/connection");
 
+//First question upon opening the app, asks user what they would like to do with the database
 const openingQuest = () => {
   inquirer
     .prompt({
@@ -54,6 +55,8 @@ const openingQuest = () => {
 };
 
 openingQuest();
+
+//Lets the user view the employees by who their manager is
 const viewEmployeesByManager = async () => {
   const sql = `SELECT * FROM employees WHERE manager_id IS NULL`;
   const managers = await db.query(sql);
@@ -75,6 +78,8 @@ const viewEmployeesByManager = async () => {
   console.table(rows[0]);
   openingQuest();
 };
+
+//Lets user view all employees
 const viewAllEmployees = async () => {
   const sql = `SELECT employees.first_name AS First, employees.last_name AS Last, title ,managers.first_name AS Manager FROM employees 
   LEFT JOIN employees managers
@@ -87,6 +92,7 @@ const viewAllEmployees = async () => {
   openingQuest();
 };
 
+//Lets user view all departments
 const viewAllDepartments = async () => {
   const sql = `SELECT departments.name, departments.id FROM departments`;
 
@@ -95,6 +101,7 @@ const viewAllDepartments = async () => {
   openingQuest();
 };
 
+//Lets user view all roles
 const viewAllRoles = async () => {
   const sql = `SELECT roles.id ,roles.title, name AS department, roles.salary FROM roles
   JOIN departments 
@@ -105,6 +112,7 @@ const viewAllRoles = async () => {
   openingQuest();
 };
 
+//lets user update an individual employee's role or manager
 const updateEmployee = async () => {
   const sql = `SELECT * FROM employees`;
   const rows = await db.query(sql);
@@ -168,9 +176,9 @@ const updateEmployee = async () => {
     await db.query(sql2, [allRoles.selectedRole, answers.chosenEmployee]);
   }
   openingQuest();
-  // console.log(answers);
 };
 
+//Lets user add employee
 const addEmployee = async () => {
   const sql1 = `SELECT * FROM employees WHERE manager_id IS NULL`;
   const managers = await db.query(sql1);
@@ -220,6 +228,7 @@ const addEmployee = async () => {
   openingQuest();
 };
 
+//Lets user add a department
 const addDepartment = async () => {
   const newDepartment = await inquirer.prompt([
     {
@@ -233,6 +242,7 @@ const addDepartment = async () => {
   openingQuest();
 };
 
+//Lets user add a role
 const addRole = async () => {
   const sql1 = `SELECT * FROM departments`;
   const departments = await db.query(sql1);

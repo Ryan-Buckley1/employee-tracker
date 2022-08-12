@@ -1,8 +1,13 @@
+
+
+-- creates departments table 
 CREATE TABLE departments (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, 
     name VARCHAR(30) NOT NULL
 );
 
+
+-- creates roles table with title, salary and department id 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     title VARCHAR(50) NOT NULL,
@@ -12,6 +17,8 @@ CREATE TABLE roles (
         REFERENCES departments(id) ON DELETE CASCADE
 );
 
+
+-- creates employees table with name, role id and manager id 
 CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     first_name VARCHAR(30) NOT NULL,
@@ -22,6 +29,4 @@ CREATE TABLE employees (
         REFERENCES employees(id) ON DELETE SET NULL,
     CONSTRAINT fk_roles FOREIGN KEY (role_id)
         REFERENCES roles(id) ON DELETE CASCADE
-    -- FOREIGN KEY (role_id) REFERENCES roles(id)
-    -- FOREIGN KEY (manager_id) REFERENCES employees(id)
 );
