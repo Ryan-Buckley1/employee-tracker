@@ -171,7 +171,6 @@ const updateEmployee = async () => {
         }),
       },
     ]);
-    console.log(allRoles.selectedRole, answers.chosenEmployee);
     const sql2 = `UPDATE employees SET role_id = ? WHERE id = ?`;
     await db.query(sql2, [allRoles.selectedRole, answers.chosenEmployee]);
   }
@@ -237,7 +236,7 @@ const addDepartment = async () => {
       message: "Enter your new Department name.",
     },
   ]);
-  const sql = `INSERT INTO department (name) VALUES (?)`;
+  const sql = `INSERT INTO departments (name) VALUES (?)`;
   await db.query(sql, newDepartment.addedDepartment);
   openingQuest();
 };
@@ -269,7 +268,7 @@ const addRole = async () => {
       }),
     },
   ]);
-  const sql = `INSERT INTO roles (name, salary, department) VALUES (?,?,?)`;
+  const sql = `INSERT INTO roles (title, salary, department_id) VALUES (?,?,?)`;
   await db.query(sql, [newRole.name, newRole.salary, newRole.department]);
   openingQuest();
 };
