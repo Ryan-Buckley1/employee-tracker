@@ -39,7 +39,7 @@ none
 
 ## video
 
-https://drive.google.com/file/d/1Q0IZowbkcVV81bAkT3DegptlwrcrerWw/view
+https://drive.google.com/file/d/1ZKqjkUSNucIgzF3QCrDBa-O3ch3KAGxK/view
 
 ## Questions
 
